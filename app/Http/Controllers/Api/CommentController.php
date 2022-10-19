@@ -17,6 +17,7 @@ class CommentController extends Controller
         if($blog) {
             $validator = Validator::make($request->all(), [
                 'message' => 'required|max:250',
+                'username' => 'required|string',
             ]);
 
             if($validator->fails()) {
@@ -28,6 +29,7 @@ class CommentController extends Controller
 
             $comment = Comment::create([
                 'message' => $request->message,
+                'username' => $request->username,
                 'blog_id' => $blog->id,
                 'user_id' => $request->user()->id
             ]);
@@ -52,7 +54,6 @@ class CommentController extends Controller
         $blog = blog::where('id', $blog_id)->first();
         if($blog) {
            
-            // $perpage = 200;
             $comments = Comment::where('blog_id', $blog_id)->get();
 
             return response ([

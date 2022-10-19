@@ -11,6 +11,7 @@ class comment extends Model
 
     protected $fillable = [
         'message',
+        'username',
         'blog_id',
         'user_id'
     ];
@@ -20,7 +21,7 @@ class comment extends Model
     ];
 
     public function user() {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(User::class);
     }
 
     public function getHumanReadableCreatedAtAttribute() {

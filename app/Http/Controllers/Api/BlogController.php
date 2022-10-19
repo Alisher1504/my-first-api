@@ -15,8 +15,7 @@ class BlogController extends Controller
             'title' => 'required|max:250',
             'short_description' => 'required',
             'long_description' => 'required',
-            'category_id' => 'required',
-            // 'image' => 'required|image|mimes:jpg,bmp,png'
+            
         ]);
 
         if($validator->fails()) {
@@ -26,19 +25,16 @@ class BlogController extends Controller
             ], 422);
         }
 
-        // $image_name = time(). '.' .$request->image->extension();
-        // $request->image->move(public_path('/uploads/blogs_images'), $image_name);
 
         $blog = blog::create([
             'title' => $request->title,
             'short_description' => $request->short_description,
             'long_description' => $request->long_description,
             'user_id' => $request->user()->id,
-            'category_id' => $request->category_id,
-            // 'image' => $image_name
+      
         ]);
 
-        $blog->load('user:id,name,email', 'category:id,name');
+        $blog->load('user:id,name,email');
 
         return response([
             'message' => 'Blog successfully created',
@@ -49,7 +45,7 @@ class BlogController extends Controller
 
     public function list(Request $request) {
 
-        $blog_query = blog::with(['user', 'category']);
+        $blog_query = blog::with(['user']);
 
 
 
@@ -75,48 +71,7 @@ class BlogController extends Controller
         }
     }
 
-    // public function update(Request $request, $id) {
-    //     $blog = blog::with(['user', 'category'])->where('id', $id)->first();
-    //     if($blog) {
-
-    //         if($blog->user_id == $request->user()->id) {
-    //             $validator = Validator::make($request->all(), [
-    //                 'title' => 'required|max:250',
-    //                 'short_description' => 'required',
-    //                 'long_description' => 'required',
-    //                 'category_id' => 'required',
-    //                 // 'image' => 'required|image|mimes:jpg,bmp,png'
-    //             ]);
-        
-    //             if($validator->fails()) {
-    //                 return response([
-    //                     'message' => 'Validation errors',
-    //                     'errors' => $validator->messages()
-    //                 ], 422);
-    //             }
-    //         }
-
-    //         $blog = blog::create([
-    //             'title' => $request->title,
-    //             'short_description' => $request->short_description,
-    //             'long_description' => $request->long_description,
-    //             'user_id' => $request->user()->id,
-    //             'category_id' => $request->category_id,
-    //         ]);
     
-    //         return response([
-    //             'message' => 'Blog successfully created',
-    //             'data' => $blog
-    //         ], 200);
-
-
-    //     } else {
-    //         return response([
-    //             'message' => 'No blog found'
-    //         ], 200);
-    //     }
-    // }
-
     public function delete($id) {
         return blog::destroy($id);
     }
