@@ -34,7 +34,7 @@ class CommentController extends Controller
                 'user_id' => $request->user()->id
             ]);
 
-            $comment->load('user');
+            $comment->load('user:id,name,email');
 
             return response([
                 'message' => 'Comment successfully created',
@@ -58,8 +58,9 @@ class CommentController extends Controller
 
             return response ([
                 'message' => 'Comment successfully fetched',
-                'data' => $comments
-            ], 200);
+                'post' => $blog,
+                'post Comment' => $comments
+            ], 422);
 
         }
         else {

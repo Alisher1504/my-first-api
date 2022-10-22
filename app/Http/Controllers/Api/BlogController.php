@@ -12,9 +12,9 @@ class BlogController extends Controller
     
     public function create(Request $request) {
         $validator = Validator::make($request->all(), [
-            'title' => 'required|max:250',
-            'short_description' => 'required',
-            'long_description' => 'required',
+            'post' => 'required|max:250',
+            'description' => 'required',
+            'slug' => 'required',
             
         ]);
 
@@ -27,9 +27,9 @@ class BlogController extends Controller
 
 
         $blog = blog::create([
-            'title' => $request->title,
-            'short_description' => $request->short_description,
-            'long_description' => $request->long_description,
+            'post' => $request->post,
+            'description' => $request->description,
+            'slug' => $request->slug,
             'user_id' => $request->user()->id,
       
         ]);
@@ -43,19 +43,19 @@ class BlogController extends Controller
 
     }
 
-    public function list(Request $request) {
+    // public function list(Request $request) {
 
-        $blog_query = blog::with(['user']);
+    //     $blog_query = blog::with(['user']);
 
 
 
-        $blog = $blog_query->get();
-        return response([
-            'message' => 'Blog successfully fatched',
-            'data' => $blog
-        ], 200);
+    //     $blog = $blog_query->get();
+    //     return response([
+    //         'message' => 'Blog successfully fatched',
+    //         'data' => $blog
+    //     ], 200);
 
-    }
+    // }
 
     public function show($id) {
         $blog = blog::with(['user', 'category'])->where('id', $id)->first();
