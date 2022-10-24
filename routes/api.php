@@ -31,7 +31,7 @@ Route::post('/blogs/create', [BlogController::class, 'create'])->middleware('aut
 
 Route::get('/blogs', [BlogController::class, 'list']);
 
-Route::post('/blogs/show/{id}', [BlogController::class, 'show'])->middleware('auth:sanctum');
+Route::get('/blogs/show/{id}', [BlogController::class, 'show'])->middleware('auth:sanctum');
 Route::post('/blogs/update/{id}', [BlogController::class, 'update'])->middleware('auth:sanctum');
 Route::post('/blogs/delete/{id}', [BlogController::class, 'delete'])->middleware('auth:sanctum');
 

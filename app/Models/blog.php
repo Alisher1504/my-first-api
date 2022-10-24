@@ -13,7 +13,6 @@ class blog extends Model
         'post',
         'description',
         'slug',
-        // 'image',
         'user_id',
         'category_id'
     ];
@@ -22,8 +21,6 @@ class blog extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function category() {
-    //     return $this->belongsTo(Category::class);
-    // }
+
 
 }

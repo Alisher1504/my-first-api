@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\blog;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -43,26 +44,17 @@ class BlogController extends Controller
 
     }
 
-    // public function list(Request $request) {
-
-    //     $blog_query = blog::with(['user']);
-
-
-
-    //     $blog = $blog_query->get();
-    //     return response([
-    //         'message' => 'Blog successfully fatched',
-    //         'data' => $blog
-    //     ], 200);
-
-    // }
 
     public function show($id) {
-        $blog = blog::with(['user', 'category'])->where('id', $id)->first();
+        $blog = blog::with(['user'])->where('id', $id)->first();
         if($blog) {
+            
+            $comments = Comment::where('blog_id', $id)->get();
+
             return response([
                 'message' => 'Blog successfully fatched',
-                'data' => $blog
+                'data' => $blog,
+                'comments' => $comments
             ], 200);
         } else {
             return response([
